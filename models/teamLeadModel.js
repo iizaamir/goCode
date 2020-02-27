@@ -1,42 +1,11 @@
 const mongoose = require('mongoose');
 //const User = require('./userModel');
 const teamLeadSchema = new mongoose.Schema({
-
-    // teamMemberName:{
-    //     type:String
-    // },
-    // positionName:{
-    //     type:String
-    // },
-    // adminRight:[Number],
-    // viewRight:[Number],
-    // timeStamp:{
-    //     type:String
-    // },
-    //This is for embadding.
-    // otherUsers:[Array],
-    teamLeadType:{
-        type:String
-    },
-    //this is parent referencing, Team model has address of it's two parents user. that are not in an array.
-    teamMember:
-        {
-        type: mongoose.Schema.ObjectId,
-        ref:  'Team'
-        // required: [true,'member must be a user']
-    },
-    position:{
+    teamLead:{
         type: mongoose.Schema.ObjectId,
         ref: 'Team'
         // required: [true,'teamLead must be a user']
     }
-    //This one is for referencing/ child referencing.
-    // otherUsers:[
-    //     {
-    //         type: mongoose.Schema.ObjectId,
-    //         ref: 'User'
-    //     }
-    // ]
 },
 {
     toJSON: {virtuals : true},
@@ -46,11 +15,8 @@ const teamLeadSchema = new mongoose.Schema({
 //Populate profile and team when make a request to rightSchems/Model.
 teamLeadSchema.pre(/^find/, function(next){
     this.populate({
-        path: 'teamMember', 
-        select: 'teamMemberName ' //Only need user id
-    }).populate({
-        path: 'position',
-        select: 'positionName' //Only need user id , if need to display 2 fields then 'member teamLead'
+        path: 'teamLead', 
+        select: 'teamLead' //Only need user id
     });
     next();
 });
@@ -70,7 +36,6 @@ teamLeadSchema.pre(/^find/, function(next){
 //     });
 //     next();
 // });
-
 
 const TeamLead = new mongoose.model('TeamLead',teamLeadSchema);
 module.exports = TeamLead;

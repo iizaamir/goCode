@@ -1,38 +1,35 @@
 const mongoose = require('mongoose');
 //const User = require('./userModel');
 const teamSchema = new mongoose.Schema({
-    // members:{
-    //     type:String
-    // },
-    // adminRight:{
-    //     type:String
-    // },
-    // viewRight:{
-    //     type:String
-    // },
     teamName:{
         type:String
     },
-    teamMemberName:{
-        type:String
-    },
-    positionName:{
-        type:String
-    },
-    teamLead:{
-        type:String
-    },
-    rights:{
-        type:String
-    },
-    // adminRight:[Number],
-    // viewRight:[Number],
-    // timeStamp:{
-    //     type:String
-    // },
-    //This is for embadding.
-    // otherUsers:[Array],
-
+    members:[
+        {
+            memberName:{
+                type:String
+            },
+            positionName:{
+                type:String
+            },
+            memberRight:{
+                type:String
+            }
+        }
+    ],
+    teamLead:[
+        {
+            leadName:{
+                type:String
+            },
+            leadPosition:{
+                type:String
+            },
+            leadRight:{
+                type:String
+            }
+        }
+    ]
 
     //this is parent referencing, Team model has address of it's two parents user. that are not in an array.
     // member:{
