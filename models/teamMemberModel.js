@@ -17,7 +17,7 @@ const teamMemberSchema = new mongoose.Schema({
 teamMemberSchema.pre(/^find/, function(next){
     this.populate({
         path: 'teamMember',
-        select: 'members' 
+        select: 'members teamName' 
     });
     next();
 });
