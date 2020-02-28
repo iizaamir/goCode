@@ -2,7 +2,16 @@ const mongoose = require('mongoose');
 //const User = require('./userModel');
 const teamMemberSchema = new mongoose.Schema({
     //this is parent referencing, Team model has address of it's two parents user. that are not in an array.
-    teamMember:
+    memberName:{
+        type:String
+    },
+    positionName:{
+        type:String
+    },
+    right:{
+        type:String
+    },
+    teamName:
         {
         type: mongoose.Schema.ObjectId,
         ref:  'Team'
@@ -16,8 +25,8 @@ const teamMemberSchema = new mongoose.Schema({
 
 teamMemberSchema.pre(/^find/, function(next){
     this.populate({
-        path: 'teamMember',
-        select: 'members teamName' 
+        path: 'teamName',
+        select: 'members' 
     });
     next();
 });
