@@ -1,11 +1,20 @@
 const mongoose = require('mongoose');
 const rightSchema = new mongoose.Schema({
-    memberRights:{
+    name:{
+        type:String
+    },
+    position:{
+        type:String
+    },
+    right:{
+        type:String
+    },
+    existingMemberRights:{
         type: mongoose.Schema.ObjectId,
         ref:  'Team'
         // required: [true,'Profile mush belong to a user']
     },
-    leadRights:{
+    existinLeadRights:{
         type: mongoose.Schema.ObjectId,
         ref: 'Team'
         // required: [true,'Teaming must belong to a team']
@@ -19,10 +28,10 @@ const rightSchema = new mongoose.Schema({
 //Populate profile and team when make a request to rightSchems/Model.
 rightSchema.pre(/^find/, function(next){
     this.populate({
-        path: 'memberRights',
+        path: 'existingMemberRights',
         select: 'members' //Only need user id
     }).populate({
-        path: 'leadRights',
+        path: 'existinLeadRights',
         select: 'teamLead' //Only need team id , if need to display 2 fields then 'member teamLead'
     });
     next();

@@ -1,7 +1,16 @@
 const mongoose = require('mongoose');
 //const User = require('./userModel');
 const teamLeadSchema = new mongoose.Schema({
-    teamLead:{
+    leadName:{
+        type:String
+    },
+    leadPosition:{
+        type:String
+    },
+    leadRight:{
+        type:String
+    },
+    existingLead:{
         type: mongoose.Schema.ObjectId,
         ref: 'Team'
         // required: [true,'teamLead must be a user']
@@ -15,8 +24,8 @@ const teamLeadSchema = new mongoose.Schema({
 //Populate profile and team when make a request to rightSchems/Model.
 teamLeadSchema.pre(/^find/, function(next){
     this.populate({
-        path: 'teamLead', 
-        select: 'teamLead' //Only need user id
+        path: 'existingLead', 
+        select: '-_id -id -__v -members' //Only need user id
     });
     next();
 });

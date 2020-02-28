@@ -11,7 +11,7 @@ const teamMemberSchema = new mongoose.Schema({
     right:{
         type:String
     },
-    teamName:
+    belongTo:
         {
         type: mongoose.Schema.ObjectId,
         ref:  'Team'
@@ -25,8 +25,8 @@ const teamMemberSchema = new mongoose.Schema({
 
 teamMemberSchema.pre(/^find/, function(next){
     this.populate({
-        path: 'teamName',
-        select: 'members' 
+        path: 'belongTo',
+        select: '-_id -id -__v -members -teamLead' 
     });
     next();
 });
