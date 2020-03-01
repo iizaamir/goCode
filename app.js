@@ -7,6 +7,7 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
+var user = require('./routes/userRoutes');
 var team = require('./routes/teamRoutes');
 var teamMember = require('./routes/teamMemberRoutes');
 var teamLead = require('./routes/teamLeadRoutes');
@@ -28,6 +29,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+
+app.use('/api/users',user);
 app.use('/api/teams',team);
 app.use('/api/teamMembers',teamMember);
 app.use('/api/teamLeads',teamLead);

@@ -1,7 +1,7 @@
 const catchAsync = require('./../utils/catchAsync');
 const AppError = require('./../utils/appError');
 const APIFeatures = require('./../utils/apiFeatures');
-const Right = require('./../models/rightsModel');
+const Right = require('../models/rightModel');
 
 exports.getAllRights = catchAsync(async (req,res,next) => {
     const features = new APIFeatures(Right.find(), req.query).filter();
@@ -38,6 +38,25 @@ exports.createRight= catchAsync(async (req,res,next) => {
         status: 'success',
         data:{
             rights: rights
+        }
+    });
+});
+
+exports.updateRight= catchAsync(async (req,res,next) => { //send only the data that is chaning.
+    const right = await Right.findByIdAndUpdate(req.params.id,req.body,{ //2nd is the data that we actually want 
+        //to change is in post req
+        new : true, //with this new updated document will be returned
+        runValidators: true // again the data validators run each time
+    }); 
+    if(!right){ //if error occured , pass it to next, when next receive something, it assumes error, jump to 
+        //global error handling middleware
+        return next(new AppError('No right found with that id',404)); //jump to the error handling middleware,
+        //return immediatly and not move to next line, below code
+    };
+    res.status(200).json({
+        status : 'success',
+        data : {
+            right: right
         }
     });
 });

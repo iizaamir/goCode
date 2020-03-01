@@ -9,15 +9,13 @@ const rightSchema = new mongoose.Schema({
     right:{
         type:String
     },
-    existingMemberRights:{
-        type: mongoose.Schema.ObjectId,
-        ref:  'Team'
-        // required: [true,'Profile mush belong to a user']
-    },
-    existinLeadRights:{
+    existingAdminRight:{
         type: mongoose.Schema.ObjectId,
         ref: 'Team'
-        // required: [true,'Teaming must belong to a team']
+    },
+    existingViewRight:{
+        type: mongoose.Schema.ObjectId,
+        ref: 'Team'
     }
 },
 { //2nd is the object for schema options, when data is outputted as json so then true
@@ -28,11 +26,11 @@ const rightSchema = new mongoose.Schema({
 //Populate profile and team when make a request to rightSchems/Model.
 rightSchema.pre(/^find/, function(next){
     this.populate({
-        path: 'existingMemberRights',
-        select: 'members' //Only need user id
+        path: 'existingAdminRight',
+        select: '-_id -id -__v -member -lead -viewRight' //Only need user id
     }).populate({
-        path: 'existinLeadRights',
-        select: 'teamLead' //Only need team id , if need to display 2 fields then 'member teamLead'
+        path: 'existingViewRight',
+        select: '-_id -id -__v -member -lead -adminRight' //Only need user id
     });
     next();
 });
